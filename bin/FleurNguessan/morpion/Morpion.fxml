@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.shape.Circle?>
+<?import javafx.scene.shape.Line?>
+<?import javafx.scene.text.Font?>
+
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="700.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="FleurNguessan.morpion.MorpionController">
+   <children>
+      <ImageView fitHeight="710.0" fitWidth="710.0" layoutX="-6.0" layoutY="-10.0" pickOnBounds="true">
+         <image>
+            <Image url="@morpionBg.jpg" />
+         </image>
+      </ImageView>
+      <Button fx:id="restart" layoutX="30.0" layoutY="112.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="35.0" prefWidth="78.0" style="-fx-background-color: black;" text="Restart" textFill="WHITE">
+         <font>
+            <Font name="System Italic" size="14.0" />
+         </font>
+      </Button>
+      <Label fx:id="gameMsg" layoutX="108.0" layoutY="57.0" text="GAMEOVER.  LE GAGNANT EST LE PREMIER" textAlignment="JUSTIFY" textFill="#3d403c">
+         <font>
+            <Font name="Georgia" size="24.0" />
+         </font>
+      </Label>
+      <Label fx:id="casesO" layoutX="54.0" layoutY="525.0" text="cases pour O" textFill="#da1515">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Label>
+      <Label fx:id="caseLibre" layoutX="576.0" layoutY="110.0" text="cases libres">
+         <font>
+            <Font name="System Bold" size="18.0" />
+         </font>
+      </Label>
+      <Label fx:id="casesX" layoutX="565.0" layoutY="536.0" text="cases pour X" textFill="#20c6e8">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Label>
+      <GridPane fx:id="grid" gridLinesVisible="true" layoutX="157.0" layoutY="123.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="400.0">
+        <columnConstraints>
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+        </columnConstraints>
+        <rowConstraints>
+          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+        </rowConstraints>
+         <opaqueInsets>
+            <Insets />
+         </opaqueInsets>
+         <padding>
+            <Insets bottom="1.0" right="1.0" />
+         </padding>
+      </GridPane>
+      <Circle fill="#fefeff" layoutX="102.0" layoutY="612.0" radius="50.0" stroke="BLACK" strokeType="INSIDE" />
+      <Line endX="56.05828857421875" endY="-30.6845703125" layoutX="596.0" layoutY="603.0" startX="-25.93670654296875" startY="41.81915283203125" />
+      <Line endX="92.3511962890625" endY="39.88092041015625" layoutX="559.0" layoutY="610.0" startX="22.67584228515625" startY="-36.97747802734375" />
+   </children>
+   <opaqueInsets>
+      <Insets />
+   </opaqueInsets>
+</Pane>

@@ -5,6 +5,7 @@ import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.geometry.Pos;
+import javafx.scene.Cursor;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
@@ -51,13 +52,19 @@ public class TicTacToeSquare extends TextField {
 		setOnMouseEntered(event -> {
 			if (!model.gameOver().get()) {
 				setBackground(backgroundGreen);
+				setCursor(Cursor.HAND);
 			} else {
 				setBackground(backgroundRed);
 			}
+			setCursor(Cursor.HAND); // Définir le curseur sur une main
+
 		});
 
 		setOnMouseExited(event -> {
 			setBackground(backgroundNormal);
+
+			setCursor(Cursor.DEFAULT); // Rétablir le curseur par défaut
+
 		});
 
 		setOnMouseClicked(event -> {
@@ -80,6 +87,7 @@ public class TicTacToeSquare extends TextField {
 				setFont(new Font(40));
 			}
 		});
+
 	}
 
 }

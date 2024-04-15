@@ -55,7 +55,7 @@ public class TicTacToeModel {
 	/**
 	 * Constructeur privé.
 	 */
-	private TicTacToeModel() {
+	TicTacToeModel() {
 		this.board = new SimpleObjectProperty[BOARD_HEIGHT][BOARD_WIDTH];
 		this.winningBoard = new SimpleBooleanProperty[BOARD_HEIGHT][BOARD_WIDTH];
 
@@ -162,28 +162,31 @@ public class TicTacToeModel {
 		if (legalMove(row, column).get()) {
 			getSquare(row, column).set(turn.get());
 
+			// Augmentation du score du joueur courant
 			if (turn.get().equals(Owner.FIRST)) {
 				countX.set(countX.get() + 1);
 			} else {
 				countO.set(countO.get() + 1);
 			}
-
+			// Diminuer les cases libres
 			countLibre.set(countLibre.get() - 1);
 
-			checkWin();
+			// Detecteur de cas de victoire
+			Win();
 
 			nextPlayer();
 		}
 	}
 
-	public void checkWin() {
-		// Parcourir les lignes
+	public void Win() {
+
+		// Verifier les lignes
 		for (int i = 0; i < BOARD_HEIGHT; i++) {
 			if (checkRow(i))
 				return;
 		}
 
-		// Parcourir les colonnes
+		// Verifier les colonnes
 		for (int j = 0; j < BOARD_WIDTH; j++) {
 			if (checkColumn(j))
 				return;
@@ -193,8 +196,7 @@ public class TicTacToeModel {
 		if (checkDiagonals())
 			return;
 
-		// S'il n'y a pas de gagnant et que toutes les cases sont remplies, déclarer un
-		// match nul
+		// Pas de gagnant, toutes les cases remplies
 		if (isBoardFull().get()) {
 			setWinner(Owner.NONE); // Match nul
 		}
@@ -202,16 +204,18 @@ public class TicTacToeModel {
 
 	private boolean checkRow(int row) {
 		Owner firstCell = getSquare(row, 0).get();
+
+		// Cas où la ligne peut pas etre gagnante
 		if (firstCell == Owner.NONE)
 			return false;
 
 		for (int j = 1; j < BOARD_WIDTH; j++) {
 			if (!getSquare(row, j).get().equals(firstCell)) {
-				return false; // Pas de victoire dans cette ligne
+				return false;
 			}
 		}
 
-		// Marquer la ligne comme gagnante
+		// Sinon Marquer la ligne comme gagnante
 		markWinningRow(row);
 		setWinner(firstCell);
 		return true;
@@ -219,25 +223,37 @@ public class TicTacToeModel {
 
 	private boolean checkColumn(int column) {
 		Owner firstCell = getSquare(0, column).get();
+
+		// Cas où la colonne peut pas etre gagnante
 		if (firstCell == Owner.NONE)
 			return false;
 
 		for (int i = 1; i < BOARD_HEIGHT; i++) {
 			if (!getSquare(i, column).get().equals(firstCell)) {
-				return false; // Pas de victoire dans cette colonne
+				return false;
 			}
 		}
 
-		// Marquer la colonne comme gagnante
+		// Sinon Marquer la colonne comme gagnante
 		markWinningColumn(column);
 		setWinner(firstCell);
 		return true;
 	}
 
 	private boolean checkDiagonals() {
+
 		// Vérifier la diagonale principale
 		Owner topLeft = getSquare(0, 0).get();
-		if (topLeft != Owner.NONE && topLeft == getSquare(1, 1).get() && topLeft == getSquare(2, 2).get()) {
+		boolean vrai = true;
+
+		for (int i = 1; i < BOARD_HEIGHT; i++) {
+			if (topLeft != Owner.NONE && topLeft == getSquare(i, i).get()) {
+				vrai &= true;
+			} else {
+				vrai &= false;
+			}
+		}
+		if (vrai) {
 			markWinningDiagonal(false);
 			setWinner(topLeft);
 			return true;
@@ -245,8 +261,16 @@ public class TicTacToeModel {
 
 		// Vérifier la diagonale inverse
 		Owner topRight = getSquare(0, 2).get();
-		if (topRight != Owner.NONE && topRight == getSquare(1, 1).get() && topRight == getSquare(2, 0).get()) {
-			// markWinningDiagonal(true);
+		vrai = true;
+		for (int i = 1; i < BOARD_HEIGHT; i++) {
+			if (topRight != Owner.NONE && topRight == getSquare(i, BOARD_WIDTH - 1 - i).get()) {
+				vrai &= true;
+			} else {
+				vrai &= false;
+			}
+		}
+		if (vrai) {
+			markWinningDiagonal(true);
 			setWinner(topRight);
 			return true;
 		}
@@ -254,16 +278,25 @@ public class TicTacToeModel {
 		return false;
 	}
 
+	/**
+	 * Verifier que la grille est pleine
+	 */
 	private BooleanBinding isBoardFull() {
 		return getScore(Owner.NONE).isEqualTo(0);
 	}
 
+	/**
+	 * Marquer une ligne comme gagnante
+	 */
 	private void markWinningRow(int row) {
 		for (int j = 0; j < BOARD_WIDTH; j++) {
 			getWinningSquare(row, j).set(true);
 		}
 	}
 
+	/**
+	 * Marquer une diagonale comme gagnante
+	 */
 	private void markWinningDiagonal(boolean reverse) {
 		if (!reverse) {
 			// Marquer la diagonale principale
@@ -278,6 +311,9 @@ public class TicTacToeModel {
 		}
 	}
 
+	/**
+	 * Marquer une colonne comme gagnante
+	 */
 	private void markWinningColumn(int column) {
 		for (int i = 0; i < BOARD_HEIGHT; i++) {
 			getWinningSquare(i, column).set(true);
@@ -291,6 +327,10 @@ public class TicTacToeModel {
 	public BooleanBinding legalMove(int row, int column) {
 		return getSquare(row, column).isEqualTo(Owner.NONE).and(gameOver().not());
 	}
+
+	/**
+	 * @return le score d'un joueur
+	 */
 
 	public NumberExpression getScore(Owner owner) {
 		switch (owner) {

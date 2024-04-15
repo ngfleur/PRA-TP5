@@ -28,6 +28,7 @@ public class MorpionController {
 
 	private static TicTacToeModel model = TicTacToeModel.getInstance();
 
+	@FXML
 	public void initialize() {
 
 		for (int i = 0; i < model.getHeight(); i++) {
@@ -41,6 +42,8 @@ public class MorpionController {
 
 			}
 		}
+
+		// Binding
 
 		caseLibre.visibleProperty().bind(model.gameOver().not());
 
